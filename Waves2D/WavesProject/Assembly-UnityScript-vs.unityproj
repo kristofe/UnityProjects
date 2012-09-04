@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{C3ABA922-750E-64B2-D84B-91A99A69CBF8}</ProjectGuid>
+	<ProjectGuid>{1924EEB5-1CBE-684A-8C23-AEA8EE557C42}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -45,13 +45,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AllScripts\Fps.js" />
-     <None Include="Assets\Editor\Mobclix\READ_ME.txt" />
-     <None Include="Assets\Editor\Mobclix\MobclixApplicationId.txt" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{1D256027-DCE8-A5D8-FD6D-DCFDDDA3F5C4}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{78118C6D-E2C1-E2CD-AD81-F0DB0BAED69F}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

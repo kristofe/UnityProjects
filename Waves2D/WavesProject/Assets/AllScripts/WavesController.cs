@@ -84,7 +84,7 @@ public class WavesController : MonoBehaviour {
     		print("UNITY_EDITOR");
    		#endif
     	#if UNITY_IPHONE
-    		print("UNITY_IPHONE");
+    		print("UNITY_IPHONE !!!");
    		#endif
     		
     	
@@ -124,7 +124,8 @@ public class WavesController : MonoBehaviour {
 	    	waveGrid = new WaveGrid(gridDimensionX, gridDimensionY);
 		}
 
-
+		print("Creating ad banner on bottom");
+		AdBinding.createAdBanner( true );
     }
     
     void OnDisable() {
@@ -138,6 +139,9 @@ public class WavesController : MonoBehaviour {
 			gchUV1sPointer.Free();
 			gchUV2sPointer.Free();
     	}
+		
+		print("Destroying ad banner");
+		AdBinding.destroyAdBanner();
     }
 
     
