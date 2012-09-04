@@ -452,3 +452,110 @@ MonoBehaviour:
   gridDimensionX: 48
   gridDimensionY: 72
   meshFilter: {fileID: 22}
+--- !u!1001 &1245732875
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_Name
+      value: AdManagerPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: allowPortraitOrientations
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+      propertyPath: allowLandscapeOrientations
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+  m_RootGameObject: {fileID: 1746294222}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+--- !u!1 &1746294222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+  m_PrefabInternal: {fileID: 1245732875}
+  serializedVersion: 3
+  m_Component:
+  - 4: {fileID: 1746294223}
+  - 114: {fileID: 1746294224}
+  - 114: {fileID: 1746294225}
+  m_Layer: 0
+  m_Name: AdManagerPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1746294223
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 09ace704ab9584ccb972ceb8a45b2659, type: 2}
+  m_PrefabInternal: {fileID: 1245732875}
+  m_GameObject: {fileID: 1746294222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &1746294224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 09ace704ab9584ccb972ceb8a45b2659,
+    type: 2}
+  m_PrefabInternal: {fileID: 1245732875}
+  m_GameObject: {fileID: 1746294222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff66566a7da343478062fccbbcae0c3, type: 1}
+  m_Name: 
+  bannerOnBottom: 1
+  autorotateAds: 1
+  fireHideShowEvents: 0
+  allowLandscapeOrientations: 0
+  allowPortraitOrientations: 1
+--- !u!114 &1746294225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 09ace704ab9584ccb972ceb8a45b2659,
+    type: 2}
+  m_PrefabInternal: {fileID: 1245732875}
+  m_GameObject: {fileID: 1746294222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0118a1d245c42f48e7a4fb98f7db12, type: 1}
+  m_Name: 
