@@ -13,6 +13,7 @@ Library/metadata
 Library/previews
 Library/guidmapper
 Temp
+Build
 *.csproj
 *.pidb
 *.sln
