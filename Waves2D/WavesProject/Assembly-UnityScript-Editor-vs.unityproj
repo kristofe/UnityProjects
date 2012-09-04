@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{C566A4D6-7736-1114-8CA4-2299343366D7}</ProjectGuid>
+	<ProjectGuid>{CAAD7310-1BB7-9AAE-76F6-9908200BF641}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -45,8 +45,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\TwoDHelper.js" />
-     <None Include="Assets\Editor\Mobclix\READ_ME.txt" />
-     <None Include="Assets\Editor\Mobclix\MobclixApplicationId.txt" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
@@ -54,9 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{1D256027-DCE8-A5D8-FD6D-DCFDDDA3F5C4}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{78118C6D-E2C1-E2CD-AD81-F0DB0BAED69F}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">
-      <Project>{C2256779-5063-611A-F0FB-6072FE263DE7}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
+      <Project>{367EBC80-15A3-DF4A-1477-948392477735}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
