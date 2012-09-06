@@ -111,7 +111,7 @@ public class GUIMainScreen : MonoBehaviour {
 		int oyBg = 235;
 		if(GUI.Button(new Rect(0+5,0+5,30,30),"X"))
 		{
-			showGUI = false;
+			SendMessageUpwards("showWaveGUI",false,SendMessageOptions.DontRequireReceiver);
 		}
 		
 		if(GUI.Button(new Rect(0+20,0+50,64,64),newTexture01))
@@ -212,7 +212,13 @@ public class GUIMainScreen : MonoBehaviour {
 			targetMaterial.SetTexture("_MainTex", texture08);
 		}
 
-				
+		
+		if(GUI.Button(new Rect(20,430,274,30),"Remove Advertisements"))
+		{
+			showGUI = false;
+			SendMessageUpwards("showIAPGUI",true,SendMessageOptions.DontRequireReceiver);
+			
+		}
 
 	}
 }

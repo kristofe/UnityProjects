@@ -20,7 +20,7 @@ public class Button_Info : Button {
 
 		base.MouseDown();
 
-       target.SendMessage("ToggleGUI", SendMessageOptions.DontRequireReceiver);
+       target.SendMessage("showWaveGUI", true, SendMessageOptions.DontRequireReceiver);
 		
     
 	}

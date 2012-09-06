@@ -11,3 +11,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
   - enabled: 0
     path: Assets/testSupport/iAdTestScene.unity
+  - enabled: 0
+    path: Assets/testSupport/StoreKitTestScene.unity

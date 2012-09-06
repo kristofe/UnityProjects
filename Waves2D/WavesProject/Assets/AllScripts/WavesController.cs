@@ -123,9 +123,6 @@ public class WavesController : MonoBehaviour {
 		{		
 	    	waveGrid = new WaveGrid(gridDimensionX, gridDimensionY);
 		}
-
-		print("Creating ad banner on bottom");
-		AdBinding.createAdBanner( true );
     }
     
     void OnDisable() {
@@ -139,9 +136,6 @@ public class WavesController : MonoBehaviour {
 			gchUV1sPointer.Free();
 			gchUV2sPointer.Free();
     	}
-		
-		print("Destroying ad banner");
-		AdBinding.destroyAdBanner();
     }
 
     
