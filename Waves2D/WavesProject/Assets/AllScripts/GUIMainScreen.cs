@@ -81,7 +81,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), "Fluid Options");
+		//GUI.Box(new Rect(0,0,320,480), "Fluid Options");
 		GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
@@ -109,9 +109,9 @@ public class GUIMainScreen : MonoBehaviour {
 	void DrawButtons()
 	{
 		int oyBg = 235;
-		if(GUI.Button(new Rect(0+5,0+5,30,30),"X"))
+		if(GUI.Button(new Rect(0,0,30,30),"X"))
 		{
-			showGUI = false;
+			SendMessageUpwards("showWaveGUI",false,SendMessageOptions.DontRequireReceiver);
 		}
 		
 		if(GUI.Button(new Rect(0+20,0+50,64,64),newTexture01))
@@ -212,7 +212,16 @@ public class GUIMainScreen : MonoBehaviour {
 			targetMaterial.SetTexture("_MainTex", texture08);
 		}
 
+		if(AppController.showAds)
+		{
+			if(GUI.Button(new Rect(50,0,244,30),"Remove Advertisements"))
+			{
+				StoreKitBinding.purchaseProduct( "com.blackicegamesnyc.remove_ads", 1 );
+				//showGUI = false;
+				//SendMessageUpwards("showIAPGUI",true,SendMessageOptions.DontRequireReceiver);
 				
+			}
+		}
 
 	}
 }

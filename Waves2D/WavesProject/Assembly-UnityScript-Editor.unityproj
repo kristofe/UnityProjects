@@ -46,6 +46,12 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\TwoDHelper.js" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
+ <Reference Include="Assets\Editor\Prime31\P31MenuItem">
+ <HintPath>Assets\Editor\Prime31\P31MenuItem.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\Plugins\Prime31\P31RestKit">
+ <HintPath>Assets\Plugins\Prime31\P31RestKit.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

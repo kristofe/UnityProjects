@@ -10,19 +10,19 @@
 #import <iAd/iAd.h>
 
 
-@interface AdManager : NSObject <ADBannerViewDelegate>
+@interface AdManager : NSObject <ADBannerViewDelegate, ADInterstitialAdDelegate>
 {
-	ADBannerView *_adView;
-	UIViewController *_controller;
-	BOOL _fireHideShowEvents;
-	
+@private
 	UIInterfaceOrientation _orientation;
 	BOOL _adBannerOnBottom;
 	BOOL _bannerIsVisible;
+	BOOL _ignoreOrientationNotifications;
 }
-@property (nonatomic, retain) UIViewController *controller;
+@property (nonatomic, assign) BOOL isShowingBanner;
+@property (nonatomic, assign) BOOL adBannerOnBottom;
 @property (nonatomic, retain) ADBannerView *adView;
 @property (nonatomic, assign) BOOL fireHideShowEvents;
+@property (nonatomic, retain) ADInterstitialAd *interstitial;
 
 
 + (AdManager*)sharedManager;
@@ -33,7 +33,10 @@
 
 - (void)setBannerIsOnBottom:(BOOL)isBottom;
 
-- (void)rotateToOrientation:(UIInterfaceOrientation)orientation;
+- (BOOL)initializeInterstitial;
 
+- (BOOL)interstitialIsLoaded;
+
+- (BOOL)showInterstitial;
 
 @end

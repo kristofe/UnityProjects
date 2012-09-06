@@ -46,6 +46,9 @@
   <ItemGroup>
      <Compile Include="Assets\AllScripts\Fps.js" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
+ <Reference Include="Assets\Plugins\Prime31\P31RestKit">
+ <HintPath>Assets\Plugins\Prime31\P31RestKit.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
