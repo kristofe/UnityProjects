@@ -9,7 +9,7 @@ public class AppController : MonoBehaviour {
 	public GUIMainScreen waveGUI;
 	
 	[System.NonSerialized]
-	public bool showAds = true;
+	public static bool showAds = true;
 	
 	private const string DISABLE_ADS = "disable_ads";
 
@@ -17,8 +17,8 @@ public class AppController : MonoBehaviour {
 
 		int disableAds = PlayerPrefs.GetInt(DISABLE_ADS);
 		print ("PlayerPrefs.GetInt(DISABLE_ADS) = " + disableAds);
-		showAds = disableAds == 0;
-		if(showAds)
+		AppController.showAds = disableAds == 0;
+		if(AppController.showAds)
 		{
 			print("Creating ad banner on bottom");
 			AdBinding.createAdBanner( true );
@@ -49,8 +49,8 @@ public class AppController : MonoBehaviour {
 	
 	public void permanentlyRemoveAds()
 	{
-		//PlayerPrefs.SetInt(DISABLE_ADS,1);
-		showAds = false;
+		PlayerPrefs.SetInt(DISABLE_ADS,1);
+		AppController.showAds = false;
 		print("Destroying ad banner");
 		AdBinding.destroyAdBanner();
 	}
@@ -58,6 +58,7 @@ public class AppController : MonoBehaviour {
 #if UNITY_IPHONE
 	void OnEnable()
 	{
+		print ("Adding storekit listeners");
 		// Listens to all the StoreKit events.  All event listeners MUST be removed before this object is disposed!
 		StoreKitManager.productPurchaseAwaitingConfirmationEvent += productPurchaseAwaitingConfirmationEvent;
 		StoreKitManager.purchaseSuccessfulEvent += purchaseSuccessful;
@@ -70,12 +71,16 @@ public class AppController : MonoBehaviour {
 		StoreKitManager.productListRequestFailedEvent += productListRequestFailed;
 		StoreKitManager.restoreTransactionsFailedEvent += restoreTransactionsFailed;
 		StoreKitManager.restoreTransactionsFinishedEvent += restoreTransactionsFinished;
+		
+		string[] productIdentifiers = new string[] { "com.blackicegamesnyc.remove_ads" };
+		StoreKitBinding.requestProductData( productIdentifiers );
 	}
 	
 	
 	void OnDisable()
 	{
 		// Remove all the event handlers
+		print ("Removing storekit listeners");
 		StoreKitManager.productPurchaseAwaitingConfirmationEvent -= productPurchaseAwaitingConfirmationEvent;
 		StoreKitManager.purchaseSuccessfulEvent -= purchaseSuccessful;
 		StoreKitManager.purchaseCancelledEvent -= purchaseCancelled;
@@ -87,6 +92,7 @@ public class AppController : MonoBehaviour {
 		StoreKitManager.productListRequestFailedEvent -= productListRequestFailed;
 		StoreKitManager.restoreTransactionsFailedEvent -= restoreTransactionsFailed;
 		StoreKitManager.restoreTransactionsFinishedEvent -= restoreTransactionsFinished;
+	
 	}
 	
 	

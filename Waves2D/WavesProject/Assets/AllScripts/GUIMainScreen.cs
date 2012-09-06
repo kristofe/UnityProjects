@@ -212,12 +212,15 @@ public class GUIMainScreen : MonoBehaviour {
 			targetMaterial.SetTexture("_MainTex", texture08);
 		}
 
-		
-		if(GUI.Button(new Rect(50,0,244,30),"Remove Advertisements"))
+		if(AppController.showAds)
 		{
-			showGUI = false;
-			SendMessageUpwards("showIAPGUI",true,SendMessageOptions.DontRequireReceiver);
-			
+			if(GUI.Button(new Rect(50,0,244,30),"Remove Advertisements"))
+			{
+				StoreKitBinding.purchaseProduct( "com.blackicegamesnyc.remove_ads", 1 );
+				//showGUI = false;
+				//SendMessageUpwards("showIAPGUI",true,SendMessageOptions.DontRequireReceiver);
+				
+			}
 		}
 
 	}

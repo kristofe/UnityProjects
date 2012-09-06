@@ -65,7 +65,7 @@ public class InAppPurchaseGUI : MonoBehaviour
 		
 		
 		// enforce the fact that we can't purchase products until we retrieve the product data
-		if( _products != null && _products.Count > 0 )
+		//if( _products != null && _products.Count > 0 )
 		{
 			if( GUI.Button( new Rect( xPos, yPos, width, height ), "Purchase Product" ) )
 			{				
