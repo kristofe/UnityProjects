@@ -7,7 +7,6 @@
 	<key>requiredFrameworks</key>
 	<array>
 		<string>iAd.framework</string>
-		<string>CoreGraphics.framework</string>
 	</array>
 	<key>pListAdditions</key>
 	<dict/>
@@ -17,5 +16,7 @@
 	</array>
 	<key>linkerFlags</key>
 	<array/>
+	<key>neverShowCompletedMessage</key>
+	<false/>
 </dict>
 </plist>

@@ -11,31 +11,16 @@
 
 void _iAdCreateAdBanner( bool bannerOnBottom )
 {
+	[AdManager sharedManager].isShowingBanner = YES;
+	[AdManager sharedManager].adBannerOnBottom = bannerOnBottom;
 	[[AdManager sharedManager] createAdBanner];
-	[[AdManager sharedManager] setBannerIsOnBottom:bannerOnBottom];
 }
 
 
 void _iAdDestroyAdBanner()
 {
 	[[AdManager sharedManager] destroyAdBanner];
-}
-
-
-void _iAdRotateToOrientation( int orientation )
-{
-	UIInterfaceOrientation screenOrientation;
-	
-	if( orientation == 1 )
-		screenOrientation = UIInterfaceOrientationPortrait;
-	else if( orientation == 2 )
-		screenOrientation = UIInterfaceOrientationPortraitUpsideDown;
-	else if( orientation == 3 )
-		screenOrientation = UIInterfaceOrientationLandscapeRight;
-	else if( orientation == 4 )
-		screenOrientation = UIInterfaceOrientationLandscapeLeft;
-	
-	[[AdManager sharedManager] rotateToOrientation:screenOrientation];
+	[AdManager sharedManager].isShowingBanner = NO;
 }
 
 
@@ -43,3 +28,22 @@ void _iAdFireHideShowEvents( bool shouldFire )
 {
 	[AdManager sharedManager].fireHideShowEvents = shouldFire;
 }
+
+
+bool _iAdInitializeInterstitial()
+{
+	return [[AdManager sharedManager] initializeInterstitial];
+}
+
+
+bool _iAdInterstitialIsLoaded()
+{
+	return [[AdManager sharedManager] interstitialIsLoaded];
+}
+
+
+bool _iAdShowInterstitial()
+{
+	return [[AdManager sharedManager] showInterstitial];
+}
+

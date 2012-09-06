@@ -4,86 +4,102 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 
+#if UNITY_IPHONE
 public class StoreKitBinding
 {
     [DllImport("__Internal")]
-    private static extern bool _canMakePayments();
+    private static extern bool _storeKitCanMakePayments();
  
     public static bool canMakePayments()
     {
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
-			return _canMakePayments();
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			return _storeKitCanMakePayments();
 		return false;
     }
 
 
     [DllImport("__Internal")]
-    private static extern void _requestProductData( string productIdentifier );
+    private static extern void _storeKitRequestProductData( string productIdentifier );
  
-	// Accepts comma-delimited set of product identifiers
-    public static void requestProductData( string productIdentifier )
+	// Accepts an array of product identifiers. All of the products you have for sale should be requested in one call.
+    public static void requestProductData( string[] productIdentifiers )
     {
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
-			_requestProductData( productIdentifier );
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitRequestProductData( string.Join( ",", productIdentifiers ) );
     }
 
 
     [DllImport("__Internal")]
-    private static extern void _purchaseProduct( string productIdentifier, int quantity );
- 
+    private static extern void _storeKitPurchaseProduct( string productIdentifier, int quantity );
+
+	// Purchases the given product and quantity
     public static void purchaseProduct( string productIdentifier, int quantity )
     {
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
-			_purchaseProduct( productIdentifier, quantity );
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitPurchaseProduct( productIdentifier, quantity );
+    }
+	
+	
+    [DllImport("__Internal")]
+    private static extern void _storeKitFinishPendingTransaction();
+
+	// Finishes the pending transaction
+    public static void finishPendingTransaction()
+    {
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitFinishPendingTransaction();
     }
 
 
     [DllImport("__Internal")]
-    private static extern void _restoreCompletedTransactions();
- 
+    private static extern void _storeKitRestoreCompletedTransactions();
+
+	// Restores all previous transactions.  This is used when a user gets a new device and they need to restore their old purchases.
+	// DO NOT call this on every launch.  It will prompt the user for their password.
     public static void restoreCompletedTransactions()
     {
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
-			_restoreCompletedTransactions();
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitRestoreCompletedTransactions();
     }
 
 
     [DllImport("__Internal")]
-    private static extern void _validateReceipt( string base64EncodedTransactionReceipt, bool isTest );
- 
+    private static extern void _storeKitValidateReceipt( string base64EncodedTransactionReceipt, bool isTest );
+
+	// Validates the given receipt for non-consumable products.  If you are using the sandbox server (not a live sale) set isTest to true.
     public static void validateReceipt( string base64EncodedTransactionReceipt, bool isTest )
     {
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
-			_validateReceipt( base64EncodedTransactionReceipt, isTest );
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitValidateReceipt( base64EncodedTransactionReceipt, isTest );
     }
-	
+
+
+	[DllImport("__Internal")]
+	private static extern void _storeKitValidateAutoRenewableReceipt( string base64EncodedTransactionReceipt, string secret, bool isTest );
+
+	// Validates a receipt from an auto-renewable product
+	public static void validateAutoRenewableReceipt( string base64EncodedTransactionReceipt, string secret, bool isTest )
+	{
+	    if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_storeKitValidateAutoRenewableReceipt( base64EncodedTransactionReceipt, secret, isTest );
+	}
+
 	
     [DllImport("__Internal")]
-    private static extern string _getAllSavedTransactions();
+    private static extern string _storeKitGetAllSavedTransactions();
  
 	// Returns a list of all the transactions that occured on this device.  They are stored in the Document directory.
     public static List<StoreKitTransaction> getAllSavedTransactions()
     {
-		List<StoreKitTransaction> transactionList = new List<StoreKitTransaction>();
-		
-        // Call plugin only when running on real device
-        if( Application.platform != RuntimePlatform.OSXEditor )
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
 		{
 			// Grab the transactions and parse them out
-			string allTransactions = _getAllSavedTransactions();
-	
-			// parse out the products
-	        string[] transactionParts = allTransactions.Split( new string[] { "||||" }, StringSplitOptions.RemoveEmptyEntries );
-	        for( int i = 0; i < transactionParts.Length; i++ )
-	            transactionList.Add( StoreKitTransaction.transactionFromString( transactionParts[i] ) );
+			var json = _storeKitGetAllSavedTransactions();
+			return StoreKitTransaction.transactionsFromJson( json );
 		}
 		
-		return transactionList;
+		return new List<StoreKitTransaction>();
     }
 	
 }
+#endif

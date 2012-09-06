@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Button_Info : Button {
 	public GameObject target;
+	public AppController appControl;
 
 	// Use this for initialization
 	void Start () {
@@ -19,9 +20,10 @@ public class Button_Info : Button {
 	{
 
 		base.MouseDown();
-
+	   print("SendMessage('showWaveGUI', true, SendMessageOptions.DontRequireReceiver)");
        target.SendMessage("showWaveGUI", true, SendMessageOptions.DontRequireReceiver);
 		
+		//appControl.showWaveGUI(true);
     
 	}
 	

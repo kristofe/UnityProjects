@@ -7,20 +7,17 @@ public class AppController : MonoBehaviour {
 	public GameObject infoButton;
 	public InAppPurchaseGUI iapGUI;
 	public GUIMainScreen waveGUI;
+	
+	[System.NonSerialized]
 	public bool showAds = true;
 	
-	private const string SHOW_ADS = "show_ads";
+	private const string DISABLE_ADS = "disable_ads";
 
-	void Start () {
-	// Listens to all the StoreKit events.  All event listeners MUST be removed before this object is disposed!
-		StoreKitManager.purchaseSuccessful += purchaseSuccessful;
-		StoreKitManager.purchaseCancelled += purchaseCancelled;
-		StoreKitManager.purchaseFailed += purchaseFailed;
-		StoreKitManager.receiptValidationFailed += receiptValidationFailed;
-		StoreKitManager.receiptValidationSuccessful += receiptValidationSuccessful;
-		StoreKitManager.productListReceived += productListReceived;
-		
-		showAds =  PlayerPrefs.GetInt(SHOW_ADS) != 0;
+	public void Start () {
+
+		int disableAds = PlayerPrefs.GetInt(DISABLE_ADS);
+		print ("PlayerPrefs.GetInt(DISABLE_ADS) = " + disableAds);
+		showAds = disableAds == 0;
 		if(showAds)
 		{
 			print("Creating ad banner on bottom");
@@ -28,34 +25,21 @@ public class AppController : MonoBehaviour {
 		}
 	}
 	
-	void OnDisable()
-	{
-		// Remove all the event handlers
-		StoreKitManager.purchaseSuccessful -= purchaseSuccessful;
-		StoreKitManager.purchaseCancelled -= purchaseCancelled;
-		StoreKitManager.purchaseFailed -= purchaseFailed;
-		StoreKitManager.receiptValidationFailed -= receiptValidationFailed;
-		StoreKitManager.receiptValidationSuccessful -= receiptValidationSuccessful;
-		StoreKitManager.productListReceived -= productListReceived;;
-		
-		print("Destroying ad banner");
-		AdBinding.destroyAdBanner();
-	}
-	
-	void showIAPGUI(bool v)
+
+	public void showIAPGUI(bool v)
 	{
 		iapGUI.showGUI = v;
 		if(v == false)
 			showInfoButton(true);
 	}
 	
-	void showWaveGUI(bool v)
+	public void showWaveGUI(bool v)
 	{
 		waveGUI.showGUI = v;
 		showInfoButton(!v);
 	}
 	
-	void showInfoButton(bool v)
+	public void showInfoButton(bool v)
 	{
 		infoButton.guiTexture.enabled = v;
 		Button_Info bi = (Button_Info)infoButton.GetComponent("Button_Info");
@@ -63,13 +47,49 @@ public class AppController : MonoBehaviour {
 			bi.enabled = v;
 	}
 	
-	void permanentlyRemoveAds()
+	public void permanentlyRemoveAds()
 	{
-		PlayerPrefs.SetInt(SHOW_ADS,1);
+		//PlayerPrefs.SetInt(DISABLE_ADS,1);
 		showAds = false;
 		print("Destroying ad banner");
 		AdBinding.destroyAdBanner();
 	}
+	
+#if UNITY_IPHONE
+	void OnEnable()
+	{
+		// Listens to all the StoreKit events.  All event listeners MUST be removed before this object is disposed!
+		StoreKitManager.productPurchaseAwaitingConfirmationEvent += productPurchaseAwaitingConfirmationEvent;
+		StoreKitManager.purchaseSuccessfulEvent += purchaseSuccessful;
+		StoreKitManager.purchaseCancelledEvent += purchaseCancelled;
+		StoreKitManager.purchaseFailedEvent += purchaseFailed;
+		StoreKitManager.receiptValidationFailedEvent += receiptValidationFailed;
+		StoreKitManager.receiptValidationRawResponseReceivedEvent += receiptValidationRawResponseReceived;
+		StoreKitManager.receiptValidationSuccessfulEvent += receiptValidationSuccessful;
+		StoreKitManager.productListReceivedEvent += productListReceived;
+		StoreKitManager.productListRequestFailedEvent += productListRequestFailed;
+		StoreKitManager.restoreTransactionsFailedEvent += restoreTransactionsFailed;
+		StoreKitManager.restoreTransactionsFinishedEvent += restoreTransactionsFinished;
+	}
+	
+	
+	void OnDisable()
+	{
+		// Remove all the event handlers
+		StoreKitManager.productPurchaseAwaitingConfirmationEvent -= productPurchaseAwaitingConfirmationEvent;
+		StoreKitManager.purchaseSuccessfulEvent -= purchaseSuccessful;
+		StoreKitManager.purchaseCancelledEvent -= purchaseCancelled;
+		StoreKitManager.purchaseFailedEvent -= purchaseFailed;
+		StoreKitManager.receiptValidationFailedEvent -= receiptValidationFailed;
+		StoreKitManager.receiptValidationRawResponseReceivedEvent -= receiptValidationRawResponseReceived;
+		StoreKitManager.receiptValidationSuccessfulEvent -= receiptValidationSuccessful;
+		StoreKitManager.productListReceivedEvent -= productListReceived;
+		StoreKitManager.productListRequestFailedEvent -= productListRequestFailed;
+		StoreKitManager.restoreTransactionsFailedEvent -= restoreTransactionsFailed;
+		StoreKitManager.restoreTransactionsFinishedEvent -= restoreTransactionsFinished;
+	}
+	
+	
 	void productListReceived( List<StoreKitProduct> productList )
 	{
 		Debug.Log( "total productsReceived: " + productList.Count );
@@ -77,8 +97,12 @@ public class AppController : MonoBehaviour {
 		// Do something more useful with the products than printing them to the console
 		foreach( StoreKitProduct product in productList )
 			Debug.Log( product.ToString() + "\n" );
-		
-		permanentlyRemoveAds();
+	}
+	
+	
+	void productListRequestFailed( string error )
+	{
+		Debug.Log( "productListRequestFailed: " + error );
 	}
 	
 	
@@ -91,6 +115,12 @@ public class AppController : MonoBehaviour {
 	void receiptValidationFailed( string error )
 	{
 		Debug.Log( "receipt validation failed with error: " + error );
+	}
+	
+	
+	void receiptValidationRawResponseReceived( string response )
+	{
+		Debug.Log( "receipt validation raw response: " + response );
 	}
 	
 
@@ -106,10 +136,29 @@ public class AppController : MonoBehaviour {
 	}
 	
 	
-	void purchaseSuccessful( string productIdentifier, string receipt, int quantity )
+	void productPurchaseAwaitingConfirmationEvent( StoreKitTransaction transaction )
 	{
-		Debug.Log( "purchased product: " + productIdentifier + ", quantity: " + quantity );
+		Debug.Log( "productPurchaseAwaitingConfirmationEvent: " + transaction );
+	}
+	
+	
+	void purchaseSuccessful( StoreKitTransaction transaction )
+	{
+		Debug.Log( "purchased product: " + transaction );
 		permanentlyRemoveAds();
 	}
+	
+	
+	void restoreTransactionsFailed( string error )
+	{
+		Debug.Log( "restoreTransactionsFailed: " + error );
+	}
+	
+	
+	void restoreTransactionsFinished()
+	{
+		Debug.Log( "restoreTransactionsFinished" );
+	}
+#endif
 	
 }

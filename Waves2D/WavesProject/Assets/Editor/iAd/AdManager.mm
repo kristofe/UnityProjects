@@ -7,8 +7,9 @@
 //
 
 #import "AdManager.h"
-#import "AdViewController.h"
 
+
+UIViewController *UnityGetGLViewController();
 
 void UnityPause( bool pause );
 
@@ -17,14 +18,14 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 
 @interface AdManager(Private)
 - (void)adjustRequestedAdTypesBasedOnOrientation;
-- (void)adjustAdViewFrameToShowAdView:(BOOL)animated;
+- (void)adjustAdViewFrameToShowAdView;
 @end
 
 
 
 @implementation AdManager
 
-@synthesize adView = _adView, controller = _controller, fireHideShowEvents = _fireHideShowEvents;
+@synthesize adView = _adView, fireHideShowEvents = _fireHideShowEvents, interstitial = _interstitial, adBannerOnBottom = _adBannerOnBottom, isShowingBanner;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark NSObject
@@ -53,8 +54,53 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 		
 		// grab our orientation
 		_orientation = [UIApplication sharedApplication].statusBarOrientation;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(orientationChanged:)
+													 name:UIApplicationWillChangeStatusBarOrientationNotification
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(orientationChanged:)
+													 name:UIApplicationDidChangeStatusBarOrientationNotification
+												   object:nil];
 	}
 	return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSNotification
+
+- (void)orientationChanged:(NSNotification*)note
+{
+	if( _ignoreOrientationNotifications || !isShowingBanner )
+		return;
+	
+	static BOOL _bannerNeedsRecreation = NO;
+	
+	// in will change we get the new orientation. in did change we recreate the banner
+	if( [note.name isEqualToString:UIApplicationWillChangeStatusBarOrientationNotification] )
+	{
+		BOOL isLandscape = UIInterfaceOrientationIsLandscape( _orientation );
+		
+		NSNumber *num = [note.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey];
+		_orientation = (UIInterfaceOrientation)[num intValue];
+		
+		// did we switch from a landscape to a portrait orientation?
+		if( UIInterfaceOrientationIsLandscape( _orientation ) != isLandscape )
+		{
+			[self destroyAdBanner];
+			_bannerNeedsRecreation = YES;
+		}
+	}
+	else
+	{
+		if( _bannerNeedsRecreation )
+		{
+			_bannerNeedsRecreation = NO;
+			[self createAdBanner];
+		}
+	}
 }
 
 
@@ -63,59 +109,59 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 
 - (void)adjustRequestedAdTypesBasedOnOrientation
 {
+	if( !_adView )
+		return;
+	
 	// set the contentSize and requiredContentSize so the adView knows what it can display
 	if( UIInterfaceOrientationIsLandscape( _orientation ) )
 	{
-		_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifier480x32];
-		_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
+		// use the new add banner content size identifiers when available
+		if( &ADBannerContentSizeIdentifierLandscape != NULL )
+		{
+			_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifierLandscape];
+			_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+		}
+		else
+		{
+			_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifier480x32];
+			_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier480x32;
+		}
 	}
 	else
 	{
-		_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifier320x50];
-		_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+		// use the new add banner content size identifiers when available
+		if( &ADBannerContentSizeIdentifierPortrait != NULL )
+		{
+			_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifierPortrait];
+			_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+		}
+		else
+		{
+			_adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifier320x50];
+			_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+		}
 	}
+	
+	[self adjustAdViewFrameToShowAdView];
 }
 
 
-- (void)adjustAdViewFrameToShowAdView:(BOOL)animated
+- (void)adjustAdViewFrameToShowAdView
 {
-	if( animated )
-		[UIView beginAnimations:nil context:nil];
-	
-	BOOL isLandscape = UIInterfaceOrientationIsLandscape( _orientation );
-	BOOL isLandscapeLeft = _orientation == UIInterfaceOrientationLandscapeLeft;
-	BOOL isPortraitUpsideDown = _orientation == UIInterfaceOrientationPortraitUpsideDown;
-	
-	// when we are landscape right or portraitUpsideDown, the view is totally flipped so we calculate everything opposite
-	BOOL calculateForBannerOnBottom = ( isLandscape && !isLandscapeLeft || !isLandscape && isPortraitUpsideDown ) ? !_adBannerOnBottom : _adBannerOnBottom;
-	
-	// if landscape, everything is reversed (width for height) due to the transform
-	if( isLandscape )
+	CGRect origFrame = _adView.frame;
+	if( _adBannerOnBottom )
 	{
-		CGFloat xOffset = ( calculateForBannerOnBottom ) ? -_controller.view.frame.size.width : _controller.view.frame.size.width;
+		CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+		if( UIInterfaceOrientationIsLandscape( _orientation ) )
+			screenHeight = [UIScreen mainScreen].bounds.size.width;
 		
-		// if the banner isn't visible, reverse the offset animation
-		if( !_bannerIsVisible )
-			xOffset *= -1;
-		
-		_controller.view.frame = CGRectOffset( _controller.view.frame, xOffset, 0 );
+		origFrame.origin = CGPointMake( 0, screenHeight - origFrame.size.height );
 	}
 	else
 	{
-		CGFloat yOffset = ( calculateForBannerOnBottom ) ? -_controller.view.frame.size.height : _controller.view.frame.size.height;
-		
-		// if the banner isn't visible, reverse the offset animation
-		if( !_bannerIsVisible )
-			yOffset *= -1;
-		
-		_controller.view.frame = CGRectOffset( _controller.view.frame, 0, yOffset );
+		origFrame.origin = CGPointMake( 0, 0 );
 	}
-	
-	if( animated )
-		[UIView commitAnimations];
-	
-	// Bring the ad back into view in case we were viewing an ad
-	_controller.view.hidden = NO;
+	_adView.frame = origFrame;
 }
 
 
@@ -127,20 +173,18 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 	// if we have an adView dont create one
 	if( _adView )
 		return;
-	
+
 	_adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
-	_adView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_adView.delegate = self;
 	
 	[self adjustRequestedAdTypesBasedOnOrientation];
+	_adView.delegate = self;
 	
-	// Inject a view controller
-	_controller = [[AdViewController alloc] initWithNibName:nil bundle:nil];
-	_controller.view.userInteractionEnabled = YES;
-	[_controller.view addSubview:_adView];
+	[UnityGetGLViewController().view addSubview:_adView];
+	[self adjustAdViewFrameToShowAdView];
 	
-	[[UIApplication sharedApplication].keyWindow addSubview:_controller.view];
-	[[UIApplication sharedApplication].keyWindow bringSubviewToFront:_controller.view];
+	// hide the banner if there is no ad loaded
+	if( !_adView.bannerLoaded )
+		_adView.hidden = YES;
 }
 
 
@@ -149,13 +193,7 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 	// destroy the adView
 	_adView.delegate = nil;
 	[_adView removeFromSuperview];
-	[_adView release];
-	_adView = nil;
-	
-	// kill the view controller
-	[_controller.view removeFromSuperview];
-	[_controller release];
-	_controller = nil;
+	self.adView = nil;
 	
 	_bannerIsVisible = NO;
 }
@@ -165,65 +203,54 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 {
 	_adBannerOnBottom = isBottom;
 	
-	BOOL isLandscape = UIInterfaceOrientationIsLandscape( _orientation );
-	BOOL isLandscapeLeft = _orientation == UIInterfaceOrientationLandscapeLeft;
-	BOOL isPortraitUpsideDown = _orientation == UIInterfaceOrientationPortraitUpsideDown;
-	
-	// when we are landscape right or portraitUpsideDown, the view is totally flipped so we calculate everything opposite
-	BOOL calculateForBannerOnBottom = ( isLandscape && !isLandscapeLeft || !isLandscape && isPortraitUpsideDown ) ? !_adBannerOnBottom : _adBannerOnBottom;
-	
-	// Tell the adView what we want to see and position the adView
-	CGRect frame = CGRectZero;
-	
-	if( isLandscape )
-	{
-		frame = CGRectMake( 0, 0, 32, 480 );
-		
-		if( _orientation == UIInterfaceOrientationLandscapeLeft )
-			_controller.view.transform = CGAffineTransformMake( 0, -1, 1, 0, 0, 0 );
-		else
-			_controller.view.transform = CGAffineTransformMake( 0, 1, -1, 0, 0, 0 );
-		
-		frame.origin.y = 0;
-		
-		if( calculateForBannerOnBottom )
-			frame.origin.x = 320; // full screen width minus adView height and move off the screen
-		else
-			frame.origin.x -= 32; // just move off the screen the width of the banner
-	}
-	else
-	{
-		frame = CGRectMake( 0, 0, 320, 50 );
-		
-		// force the identity transform for portrait
-		if( _orientation == UIInterfaceOrientationPortrait )
-			_controller.view.transform = CGAffineTransformIdentity;
-		else
-			_controller.view.transform = CGAffineTransformMake( -1, 0, 0, -1, 0, 0 );
-
-		if( calculateForBannerOnBottom )
-			frame.origin.y = 480;
-		else
-			frame.origin.y = -50; // just move off the screen the height of the banner
-	}
-	
-	// Set the controller frame and the _adView frame
-	_controller.view.frame = frame;
-	_adView.frame = ( isLandscape ) ? CGRectMake( 0, 0, 480, 32 ) : CGRectMake( 0, 0, 320, 50 );
+	if( _adView )
+		[self adjustAdViewFrameToShowAdView];
 }
 
 
-- (void)rotateToOrientation:(UIInterfaceOrientation)orientation
+// interstitial methods
+- (BOOL)initializeInterstitial
 {
-	// set the appropriate ivars
-	_orientation = orientation;
+	// iPad only
+	if( UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad )
+		return NO;
 	
-	// adjust requested ad types and relayout the adView
-	[self adjustRequestedAdTypesBasedOnOrientation];
-	[self setBannerIsOnBottom:_adBannerOnBottom];
+	// early out if we dont have iOS 4.3 iAd.framework
+	if( !NSClassFromString( @"ADInterstitialAd" ) )
+		return NO;
 	
-	if( _bannerIsVisible )
-		[self adjustAdViewFrameToShowAdView:NO];
+	self.interstitial = [[[ADInterstitialAd alloc] init] autorelease];
+	_interstitial.delegate = self;
+	
+	return YES;
+}
+
+
+- (BOOL)interstitialIsLoaded
+{
+	if( _interstitial )
+		return _interstitial.isLoaded;
+	return NO;
+}
+
+
+- (BOOL)showInterstitial
+{
+	if( !_interstitial.isLoaded )
+		return NO;
+	
+	UnityPause( true );
+	
+	if( _adView )
+	{
+		NSLog( @"ad banner being destroyed because you cannot display a banner and an interstitial at the same time" );
+		[self destroyAdBanner];
+	}
+
+	// show the ad
+	[_interstitial presentFromViewController:UnityGetGLViewController()];
+	
+	return YES;
 }
 
 
@@ -233,26 +260,25 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 - (void)bannerView:(ADBannerView*)banner didFailToReceiveAdWithError:(NSError*)error
 {
 	NSLog( @"------ bannerView:didFailToReceiveAdWithError: %@", [error localizedDescription] );
-	if( _bannerIsVisible )
-    {
-		_bannerIsVisible = NO;
-		[self adjustAdViewFrameToShowAdView:YES];
-		
-		// fire the event if we want it
-		if( _fireHideShowEvents )
-			UnitySendMessage( "AdManager", "adViewDidShow", "0" );
-    }
+	_adView.hidden = YES;
+	
+	_bannerIsVisible = NO;
+	
+	// fire the event if we want it
+	if( _fireHideShowEvents )
+		UnitySendMessage( "AdManager", "adViewDidShow", "0" );
 }
 
 
 - (void)bannerViewDidLoadAd:(ADBannerView*)banner
 {
+	_adView.hidden = NO;
+	
     if( !_bannerIsVisible )
     {
 		_bannerIsVisible = YES;
-		[self adjustAdViewFrameToShowAdView:YES];
-
-		// fire the event if we want it
+		
+		// fire the event if we want it.  we only fire this event when we change from not visible to visible
 		if( _fireHideShowEvents )
 			UnitySendMessage( "AdManager", "adViewDidShow", "1" );
     }
@@ -261,23 +287,60 @@ void UnitySendMessage( const char * className, const char * methodName, const ch
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView*)banner willLeaveApplication:(BOOL)willLeave
 {
-	// Hide the ad while they view it to avoid having it jump position.  Landscape only due to the way Unity does things
-	_controller.view.alpha = 0.0f;
+	NSLog( @"bannerViewActionShouldBegin:willLeaveApplication:(%@)", willLeave ? @"YES" : @"NO" );
 	
-	UnityPause( true );
+	if( !willLeave )
+	{
+		_ignoreOrientationNotifications = YES;
+		UnityPause( true );
+	}
+	
 	return YES;
 }
 
 
 - (void)bannerViewActionDidFinish:(ADBannerView*)banner
 {
-	[self setBannerIsOnBottom:_adBannerOnBottom];
-	[self adjustAdViewFrameToShowAdView:NO];
-	
-	// reshow our view
-	_controller.view.alpha = 1.0f;
+	NSLog( @"bannerViewActionDidFinish:" );
+	[self adjustAdViewFrameToShowAdView];
+	_ignoreOrientationNotifications = NO;
 	
 	UnityPause( false );
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark ADInterstitialAdDelegate
+
+- (void)interstitialAdDidUnload:(ADInterstitialAd*)interstitialAd
+{
+	// release the interstitial and init a new one
+	_interstitial.delegate = nil;
+	self.interstitial = nil;
+	
+	UnityPause( false );
+}
+
+
+- (void)interstitialAdActionDidFinish:(ADInterstitialAd*)interstitialAd
+{
+	UnityPause( false );
+}
+
+
+- (void)interstitialAd:(ADInterstitialAd*)interstitialAd didFailWithError:(NSError*)error
+{
+	UnitySendMessage( "AdManager", "interstitialFailed", [[error localizedDescription] UTF8String] );
+	
+	_interstitial.delegate = nil;
+	self.interstitial = nil;
+}
+
+
+- (void)interstitialAdDidLoad:(ADInterstitialAd*)interstitialAd
+{
+	UnitySendMessage( "AdManager", "interstitialLoaded", "" );
+}
+
 
 @end

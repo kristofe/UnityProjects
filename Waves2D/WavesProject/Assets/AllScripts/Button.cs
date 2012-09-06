@@ -1,4 +1,3 @@
-#define PC
 using UnityEngine;
 using System.Collections;
 
@@ -42,7 +41,7 @@ public class Button : MonoBehaviour {
 	
 	protected virtual void ClickChecker()
 	{	
-		#if IPHONE
+		#if UNITY_IPHONE
 		if(Application.platform != RuntimePlatform.OSXEditor)
 		{
 			CheckForClickIPhone();
@@ -85,7 +84,7 @@ public class Button : MonoBehaviour {
 		}		
 	}
 	
-	#if IPHONE
+	#if UNITY_IPHONE
 	protected virtual void CheckForClickIPhone()
 	{
 		bool touchInside = false;

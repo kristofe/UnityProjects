@@ -1,10 +1,3 @@
-#if UNITY_EDITOR
-#define PC
-#else
-#define IPHONE
-#endif
-
-
 using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
@@ -14,7 +7,7 @@ using System.Runtime.InteropServices;
 
 public class WavesController : MonoBehaviour {
 // Link to the Waves plugin and call the UpdateTexture function there.
-#if PC
+#if UNITY_EDITOR
 	[DllImport ("UnityWaves")]
     private static extern void UpdateWaves (IntPtr origUV1,IntPtr uv1,IntPtr uv2);
     [DllImport ("UnityWaves")]
@@ -84,7 +77,7 @@ public class WavesController : MonoBehaviour {
     		print("UNITY_EDITOR");
    		#endif
     	#if UNITY_IPHONE
-    		print("UNITY_IPHONE !!!");
+    		print("UNITY_IPHONE");
    		#endif
     		
     	
@@ -118,10 +111,12 @@ public class WavesController : MonoBehaviour {
 			gchUV1sPointer = GCHandle.Alloc(uvs, GCHandleType.Pinned);
 			gchUV2sPointer = GCHandle.Alloc(uv2s, GCHandleType.Pinned);
     		
+			print ("Using native");
 		}
 		else
 		{		
 	    	waveGrid = new WaveGrid(gridDimensionX, gridDimensionY);
+			print ("Not using native");
 		}
     }
     
@@ -141,7 +136,7 @@ public class WavesController : MonoBehaviour {
     
     
     void LateUpdate () {
-		if(Time.time - lastUpdateTime > 0.03333f)
+		if(Time.time - lastUpdateTime > 0.016777f)
 		{
 
 			if(useNative)
@@ -156,7 +151,7 @@ public class WavesController : MonoBehaviour {
 				theMesh.uv = uvs;
 				theMesh.uv2 = uv2s;
 			}
-#if PC        	
+#if UNITY_EDITOR        	
         	if(Input.GetMouseButton(0))
         	{
         		MouseDragged();
@@ -185,7 +180,7 @@ public class WavesController : MonoBehaviour {
 		
 		
 		
-#if PC
+#if UNITY_EDITOR
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     	RaycastHit hit = new RaycastHit();
     	if(collider.Raycast(ray,out hit,100))
@@ -245,7 +240,7 @@ public class WavesController : MonoBehaviour {
 	public void MouseDragged()
 	{
 		
-#if PC
+#if UNITY_EDITOR
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     	RaycastHit hit = new RaycastHit();
     	if(collider.Raycast(ray,out hit,100))

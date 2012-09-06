@@ -14,5 +14,7 @@
 	<array/>
 	<key>linkerFlags</key>
 	<array/>
+	<key>neverShowCompletedMessage</key>
+	<false/>
 </dict>
 </plist>

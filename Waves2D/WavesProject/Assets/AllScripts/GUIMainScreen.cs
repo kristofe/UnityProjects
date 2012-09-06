@@ -81,7 +81,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), "Fluid Options");
+		//GUI.Box(new Rect(0,0,320,480), "Fluid Options");
 		GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
@@ -109,7 +109,7 @@ public class GUIMainScreen : MonoBehaviour {
 	void DrawButtons()
 	{
 		int oyBg = 235;
-		if(GUI.Button(new Rect(0+5,0+5,30,30),"X"))
+		if(GUI.Button(new Rect(0,0,30,30),"X"))
 		{
 			SendMessageUpwards("showWaveGUI",false,SendMessageOptions.DontRequireReceiver);
 		}
@@ -213,7 +213,7 @@ public class GUIMainScreen : MonoBehaviour {
 		}
 
 		
-		if(GUI.Button(new Rect(20,430,274,30),"Remove Advertisements"))
+		if(GUI.Button(new Rect(50,0,244,30),"Remove Advertisements"))
 		{
 			showGUI = false;
 			SendMessageUpwards("showIAPGUI",true,SendMessageOptions.DontRequireReceiver);

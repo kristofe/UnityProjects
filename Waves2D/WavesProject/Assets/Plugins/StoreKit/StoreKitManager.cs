@@ -3,105 +3,144 @@ using System;
 using System.Collections.Generic;
 
 
+
 public class StoreKitManager : MonoBehaviour
 {
-	// Events
-	public delegate void ProductPurchasedEventHandler( string productIdentifier, string receipt, int quantity );
-	public static event ProductPurchasedEventHandler purchaseSuccessful;
+#if UNITY_IPHONE
+	public static bool autoConfirmTransactions = true;
 	
-	public delegate void ProductListReceivedEventHandler( List<StoreKitProduct> productList );
-	public static event ProductListReceivedEventHandler productListReceived;
 	
-	public delegate void StoreKitErrorEventHandler( string error );
-	public static event StoreKitErrorEventHandler purchaseFailed;
-	public static event StoreKitErrorEventHandler purchaseCancelled;
-	public static event StoreKitErrorEventHandler receiptValidationFailed;
+	// Fired when the product list your required returns.  Automatically serializes the productString into StoreKitProduct's.
+	public static event Action<List<StoreKitProduct>> productListReceivedEvent;
 	
-	public delegate void ValidateReceiptSuccessfulEventHandler();
-	public static event ValidateReceiptSuccessfulEventHandler receiptValidationSuccessful;
+	// Fired when requesting product data fails
+	public static event Action<string> productListRequestFailedEvent;
+	
+	// Fired when a product purchase has returned from Apple's servers and is awaiting completion. By default the plugin will finish transactions for you.
+	// You can change that behaviour by setting autoConfirmTransactions to false which then requires that you call StoreKitBinding.finishPendingTransaction
+	// to complete a purchase.
+	public static event Action<StoreKitTransaction> productPurchaseAwaitingConfirmationEvent;
+	
+	// Fired when a product is successfully paid for.  returnValue will hold the productIdentifer and receipt of the purchased product.
+	public static event Action<StoreKitTransaction> purchaseSuccessfulEvent;
+	
+	// Fired when a product purchase fails
+	public static event Action<string> purchaseFailedEvent;
+	
+	// Fired when a product purchase is cancelled by the user or system
+	public static event Action<string> purchaseCancelledEvent;
+	
+	// Fired when the validateReceipt call fails
+	public static event Action<string> receiptValidationFailedEvent;
+	
+	// Fired when receive validation completes and returns the raw receipt data
+	public static event Action<string> receiptValidationRawResponseReceivedEvent;
+	
+	// Fired when the validateReceipt method finishes.  It does not automatically mean success.
+	public static event Action receiptValidationSuccessfulEvent;
+	
+	// Fired when an error is encountered while adding transactions from the user's purchase history back to the queue
+	public static event Action<string> restoreTransactionsFailedEvent;
+	
+	// Fired when all transactions from the user's purchase history have successfully been added back to the queue
+	public static event Action restoreTransactionsFinishedEvent;
 	
 	
     void Awake()
     {
 		// Set the GameObject name to the class name for easy access from Obj-C
 		gameObject.name = this.GetType().ToString();
+		DontDestroyOnLoad( this );
     }
 	
 	
-	// Called when a product is successfully paid for.  returnValue will hold the productIdentifer and receipt of the purchased product.
-	public void productPurchased( string returnValue )
+	public void productPurchaseAwaitingConfirmation( string json )
 	{
-		// split up into useful data
-		string[] receiptParts = returnValue.Split( new string[] { "|||" }, StringSplitOptions.RemoveEmptyEntries );
-		if( receiptParts.Length != 3 )
-		{
-			if( purchaseFailed != null )
-				purchaseFailed( "Could not parse receipt information: " + returnValue );
-			return;
-		}
-			
-		string productIdentifier = receiptParts[0];
-		string receipt = receiptParts[1];
-		int quantity = int.Parse( receiptParts[2] );
+		if( productPurchaseAwaitingConfirmationEvent != null )
+			productPurchaseAwaitingConfirmationEvent( StoreKitTransaction.transactionFromJson( json ) );
 		
-		if( purchaseSuccessful != null )
-			purchaseSuccessful( productIdentifier, receipt, quantity );
+		if( autoConfirmTransactions )
+			StoreKitBinding.finishPendingTransaction();
+	}
+
+	
+	public void productPurchased( string json )
+	{
+		if( purchaseSuccessfulEvent != null )
+			purchaseSuccessfulEvent( StoreKitTransaction.transactionFromJson( json ) );
 	}
 	
 	
-	// Called when a product purchase fails
 	public void productPurchaseFailed( string error )
 	{
-		if( purchaseFailed != null )
-			purchaseFailed( error );
+		if( purchaseFailedEvent != null )
+			purchaseFailedEvent( error );
 	}
 	
 		
-	// Called when a product purchase is cancelled by the user or system
 	public void productPurchaseCancelled( string error )
 	{
-		if( purchaseCancelled != null )
-			purchaseCancelled( error );
+		if( purchaseCancelledEvent != null )
+			purchaseCancelledEvent( error );
 	}
 	
 	
-	// Called when the product list your required returns.  Automatically serializes the productString into StoreKitProduct's.
-	public void productsReceived( string productString )
+	public void productsReceived( string json )
 	{
-        List<StoreKitProduct> productList = new List<StoreKitProduct>();
-
-		// parse out the products
-        string[] productParts = productString.Split( new string[] { "||||" }, StringSplitOptions.RemoveEmptyEntries );
-        for( int i = 0; i < productParts.Length; i++ )
-            productList.Add( StoreKitProduct.productFromString( productParts[i] ) );
-		
-		if( productListReceived != null )
-			productListReceived( productList );
+		if( productListReceivedEvent != null )
+			productListReceivedEvent( StoreKitProduct.productsFromJson( json ) );
 	}
 	
 	
-	// Called when the validateReceipt call fails
+	public void productsRequestDidFail( string error )
+	{
+		if( productListRequestFailedEvent != null )
+			productListRequestFailedEvent( error );
+	}
+	
+	
 	public void validateReceiptFailed( string error )
 	{
-		if( receiptValidationFailed != null )
-			receiptValidationFailed( error );
+		if( receiptValidationFailedEvent != null )
+			receiptValidationFailedEvent( error );
 	}
 	
 	
-	// Called when the validateReceipt method finishes.  It does not automatically mean success.
+	public void validateReceiptRawResponse( string response )
+	{
+		if( receiptValidationRawResponseReceivedEvent != null )
+			receiptValidationRawResponseReceivedEvent( response );
+	}
+	
+	
 	public void validateReceiptFinished( string statusCode )
 	{
 		if( statusCode == "0" )
 		{
-			if( receiptValidationSuccessful != null )
-				receiptValidationSuccessful();
+			if( receiptValidationSuccessfulEvent != null )
+				receiptValidationSuccessfulEvent();
 		}
 		else
 		{
-			if( receiptValidationFailed != null )
-				receiptValidationFailed( "Receipt validation failed with statusCode: " + statusCode );
+			if( receiptValidationFailedEvent != null )
+				receiptValidationFailedEvent( "Receipt validation failed with statusCode: " + statusCode );
 		}
 	}
 
+	
+	public void restoreCompletedTransactionsFailed( string error )
+	{
+		if( restoreTransactionsFailedEvent != null )
+			restoreTransactionsFailedEvent( error );
+	}
+	
+	
+	public void restoreCompletedTransactionsFinished( string empty )
+	{
+		if( restoreTransactionsFinishedEvent != null )
+			restoreTransactionsFinishedEvent();
+	}
+
+#endif
 }
 
