@@ -354,6 +354,7 @@ MonoBehaviour:
   texture07: {fileID: 2800000, guid: 706808dff804149a281d60e9ccbc0dc9, type: 1}
   texture08: {fileID: 2800000, guid: e7910c449444d486e9c879bfb065b95f, type: 1}
   texture09: {fileID: 2800000, guid: e7910c449444d486e9c879bfb065b95f, type: 1}
+  noBanner: {fileID: 2800000, guid: 04e63d24266b441a7ba7e6c0677969b1, type: 1}
   guiSkin: {fileID: 0}
   textStyle:
     m_Name: 
