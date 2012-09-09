@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AllScripts\Fps.js" />
+     <None Include="Assets\Promo\promo.txt" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
  <Reference Include="Assets\Plugins\Prime31\P31RestKit">
  <HintPath>Assets\Plugins\Prime31\P31RestKit.dll</HintPath>

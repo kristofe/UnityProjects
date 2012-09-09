@@ -355,6 +355,7 @@ MonoBehaviour:
   texture08: {fileID: 2800000, guid: e7910c449444d486e9c879bfb065b95f, type: 1}
   texture09: {fileID: 2800000, guid: e7910c449444d486e9c879bfb065b95f, type: 1}
   noBanner: {fileID: 2800000, guid: 04e63d24266b441a7ba7e6c0677969b1, type: 1}
+  moreApps: {fileID: 2800000, guid: a66a345cea1f148cf93de6bdf4139bd0, type: 1}
   guiSkin: {fileID: 0}
   textStyle:
     m_Name: 
@@ -580,6 +581,7 @@ GameObject:
   - 4: {fileID: 1456323065}
   - 114: {fileID: 1456323067}
   - 114: {fileID: 1456323066}
+  - 114: {fileID: 1456323068}
   m_Layer: 0
   m_Name: AppControl
   m_TagString: Untagged
@@ -612,6 +614,8 @@ MonoBehaviour:
   infoButton: {fileID: 12}
   iapGUI: {fileID: 1456323067}
   waveGUI: {fileID: 31}
+  promoMgr: {fileID: 1456323068}
+  guiState: 0
 --- !u!114 &1456323067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +626,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13f4e4b35e3ad4ce09ae05b4bc4ec121, type: 1}
   m_Name: 
+--- !u!114 &1456323068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1456323064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ac39ef0d6654dd9bebb43db621e303, type: 1}
+  m_Name: 
+  promoFileURL: http://www.blackicegamesnyc.com/promos/promo.txt
+  appID: WAVES
+  lastVersionDisplayed: -1
+  showEveryCount: 5
 --- !u!1001 &1545613530
 Prefab:
   m_ObjectHideFlags: 0
