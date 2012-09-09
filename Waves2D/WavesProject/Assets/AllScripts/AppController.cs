@@ -4,17 +4,28 @@ using System.Collections.Generic;
 
 
 public class AppController : MonoBehaviour {
+	public enum GUIState {
+		HIDDEN,
+		FLUID_PROPERTIES,
+		PROMO
+	}
+		
 	public GameObject infoButton;
 	public InAppPurchaseGUI iapGUI;
 	public GUIMainScreen waveGUI;
+	public PromoManager promoMgr;
 	
 	[System.NonSerialized]
 	public static bool showAds = true;
 	
+	private static AppController instance;
+	public GUIState guiState;
+	
 	private const string DISABLE_ADS = "disable_ads";
 
 	public void Start () {
-
+		
+		AppController.instance = this;
 		int disableAds = PlayerPrefs.GetInt(DISABLE_ADS);
 		print ("PlayerPrefs.GetInt(DISABLE_ADS) = " + disableAds);
 		AppController.showAds = disableAds == 0;
@@ -25,18 +36,27 @@ public class AppController : MonoBehaviour {
 		}
 	}
 	
-
-	public void showIAPGUI(bool v)
+	public static AppController getInstance()
 	{
-		iapGUI.showGUI = v;
-		if(v == false)
-			showInfoButton(true);
+		return instance;
 	}
 	
-	public void showWaveGUI(bool v)
+	public PromoManager getPromoMgr()
 	{
-		waveGUI.showGUI = v;
-		showInfoButton(!v);
+		return promoMgr;
+	}
+	
+	public void setGUIState(GUIState gs)
+	{
+		guiState = gs;
+		if(guiState == GUIState.HIDDEN)
+		{
+			showInfoButton(true);
+		}
+		else
+		{
+			showInfoButton(false);
+		}
 	}
 	
 	public void showInfoButton(bool v)
