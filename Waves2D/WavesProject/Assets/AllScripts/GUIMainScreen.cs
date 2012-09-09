@@ -28,6 +28,7 @@ public class GUIMainScreen : MonoBehaviour {
 	public Texture texture09;
 
 	public Texture noBanner;
+	public Texture moreApps;
 	
 	public GUISkin guiSkin;
 	public GUIStyle textStyle;
@@ -74,101 +75,101 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawMaps() 
 	{
-		scrollPosition = GUI.BeginScrollView(new Rect(0,50,320,140),scrollPosition,new Rect(0,0,300,220),false, true);
+		scrollPosition = GUI.BeginScrollView(new Rect(10,50,300,140),scrollPosition,new Rect(0,0,280,220),false, true);
 
-		if(GUI.Button(new Rect(20,0,64,64),newTexture01))
+		if(GUI.Button(new Rect(0,0,64,64),newTexture01))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture01);
 		}
-		if(GUI.Button(new Rect(20,70,64,64),newTexture02))
+		if(GUI.Button(new Rect(0,70,64,64),newTexture02))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture02);
 		}
-		if(GUI.Button(new Rect(20,0+140,64,64),newTexture03))
+		if(GUI.Button(new Rect(0,0+140,64,64),newTexture03))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture03);
 		}
 		
-		if(GUI.Button(new Rect(90,0,64,64),newTexture04))
+		if(GUI.Button(new Rect(70,0,64,64),newTexture04))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture04);
 		}
-		if(GUI.Button(new Rect(90,70,64,64),newTexture05))
+		if(GUI.Button(new Rect(70,70,64,64),newTexture05))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture05);
 		}
-		if(GUI.Button(new Rect(90,140,64,64),newTexture06))
+		if(GUI.Button(new Rect(70,140,64,64),newTexture06))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture06);
 		}
 		
 		
 		
-		if(GUI.Button(new Rect(160,0,64,64),newTexture07))
+		if(GUI.Button(new Rect(140,0,64,64),newTexture07))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture07);
 		}
-		if(GUI.Button(new Rect(160,70,64,64),newTexture08))
+		if(GUI.Button(new Rect(140,70,64,64),newTexture08))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture08);
 		}
-		if(GUI.Button(new Rect(160,140,64,64),newTexture09))
+		if(GUI.Button(new Rect(140,140,64,64),newTexture09))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture09);
 		}
 		
-		if(GUI.Button(new Rect(230,0,64,64),newTexture10))
+		if(GUI.Button(new Rect(210,0,64,64),newTexture10))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture10);
 		}
-		if(GUI.Button(new Rect(230,70,64,64),newTexture11))
+		if(GUI.Button(new Rect(210,70,64,64),newTexture11))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture11);
 		}
-		if(GUI.Button(new Rect(230,140,64,64),newTexture12))
+		if(GUI.Button(new Rect(210,140,64,64),newTexture12))
 		{
 			targetMaterial.SetTexture("_EnvTex", newTexture12);
 		}
 		
 		GUI.EndScrollView();
 
-		scrollPosition2 = GUI.BeginScrollView(new Rect(0,205,320,140),scrollPosition2,new Rect(0,0,300,150));
-		if(GUI.Button(new Rect(20,0,64,64),texture01))
+		scrollPosition2 = GUI.BeginScrollView(new Rect(10,205,300,140),scrollPosition2,new Rect(0,0,280,150));
+		if(GUI.Button(new Rect(0,0,64,64),texture01))
 		{
 			targetMaterial.SetTexture("_MainTex", texture01);
 		}
-		if(GUI.Button(new Rect(20,70,64,64),texture02))
+		if(GUI.Button(new Rect(0,70,64,64),texture02))
 		{
 			targetMaterial.SetTexture("_MainTex", texture02);
 		}
 
 		
-		if(GUI.Button(new Rect(90,0,64,64),texture03))
+		if(GUI.Button(new Rect(70,0,64,64),texture03))
 		{
 			targetMaterial.SetTexture("_MainTex", texture03);
 		}
-		if(GUI.Button(new Rect(90,70,64,64),texture04))
+		if(GUI.Button(new Rect(70,70,64,64),texture04))
 		{
 			targetMaterial.SetTexture("_MainTex", texture04);
 		}
 
 		
-		if(GUI.Button(new Rect(160,0,64,64),texture05))
+		if(GUI.Button(new Rect(140,0,64,64),texture05))
 		{
 			targetMaterial.SetTexture("_MainTex", texture05);
 		}
-		if(GUI.Button(new Rect(160,70,64,64),texture06))
+		if(GUI.Button(new Rect(140,70,64,64),texture06))
 		{
 			targetMaterial.SetTexture("_MainTex", texture06);
 		}
 
 		
 		
-		if(GUI.Button(new Rect(230,0,64,64),texture07))
+		if(GUI.Button(new Rect(210,0,64,64),texture07))
 		{
 			targetMaterial.SetTexture("_MainTex", texture07);
 		}
-		if(GUI.Button(new Rect(230,70,64,64),texture08))
+		if(GUI.Button(new Rect(210,70,64,64),texture08))
 		{
 			targetMaterial.SetTexture("_MainTex", texture08);
 		}
@@ -178,7 +179,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawButtons()
 	{
-		if(GUI.Button(new Rect(0,0,30,30),"X"))
+		if(GUI.Button(new Rect(Screen.width - 30,0,30,30),"X"))
 		{
 			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
 		}	
@@ -186,10 +187,18 @@ public class GUIMainScreen : MonoBehaviour {
 		if(AppController.showAds)
 		{
 			
-			if(GUI.Button(new Rect(92,345,128,64),noBanner))
+			if(GUI.Button(new Rect(10,345,140,64),noBanner))
 			{
 				StoreKitBinding.purchaseProduct( "com.blackicegamesnyc.remove_ads", 1 );
 			}
+		}
+		
+		if(AppController.getInstance().getPromoMgr().hasData())
+		{
+			if(GUI.Button(new Rect(20+150,345,140,64),moreApps))
+			{
+				SendMessageUpwards("setGUIState",AppController.GUIState.PROMO,SendMessageOptions.DontRequireReceiver);
+			}	
 		}
 
 	}

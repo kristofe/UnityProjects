@@ -13,6 +13,7 @@ public class AppController : MonoBehaviour {
 	public GameObject infoButton;
 	public InAppPurchaseGUI iapGUI;
 	public GUIMainScreen waveGUI;
+	public PromoManager promoMgr;
 	
 	[System.NonSerialized]
 	public static bool showAds = true;
@@ -38,6 +39,11 @@ public class AppController : MonoBehaviour {
 	public static AppController getInstance()
 	{
 		return instance;
+	}
+	
+	public PromoManager getPromoMgr()
+	{
+		return promoMgr;
 	}
 	
 	public void setGUIState(GUIState gs)
