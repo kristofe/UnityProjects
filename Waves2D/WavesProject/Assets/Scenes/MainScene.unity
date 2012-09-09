@@ -580,6 +580,7 @@ GameObject:
   - 4: {fileID: 1456323065}
   - 114: {fileID: 1456323067}
   - 114: {fileID: 1456323066}
+  - 114: {fileID: 1456323068}
   m_Layer: 0
   m_Name: AppControl
   m_TagString: Untagged
@@ -622,6 +623,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13f4e4b35e3ad4ce09ae05b4bc4ec121, type: 1}
   m_Name: 
+--- !u!114 &1456323068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1456323064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ac39ef0d6654dd9bebb43db621e303, type: 1}
+  m_Name: 
+  promoFileURL: http://www.blackicegamesnyc.com/promos/promo.txt
+  appID: WAVES
+  lastVersionDisplayed: -1
 --- !u!1001 &1545613530
 Prefab:
   m_ObjectHideFlags: 0

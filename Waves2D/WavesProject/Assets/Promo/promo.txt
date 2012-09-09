@@ -1,0 +1,4 @@
+0
+#APPNAME LANGUAGE ICON_URL LINK_URL LOCALIZED_MESSAGE
+DROPS|ENGLISH|http://www.blackicegamesnyc.com/promos/drops_icon.png|http://itunes.apple.com/us/app/electric-fluid-drops-free/id359209361?mt=8|Try Drops Free!
+WAVES2|ENGLISH|http://www.blackicegamesnyc.com/promos/waves_icon.png|http://itunes.apple.com/us/app/electric-fluid-waves-free/id356289455?mt=8|Try Waves Free
