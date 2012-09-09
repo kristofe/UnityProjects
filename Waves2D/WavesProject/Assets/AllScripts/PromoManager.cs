@@ -106,8 +106,37 @@ public class PromoManager : MonoBehaviour {
 			promoData.Add(pd);
 		}
 		
+		SendMessage("setGUIState", AppController.GUIState.PROMO, SendMessageOptions.DontRequireReceiver);
+		
 	}
 	
+	
+	public void OnGUI()
+	{
+		if(AppController.getInstance().guiState != AppController.GUIState.PROMO)
+			return;
+		
+		if(GUI.Button(new Rect(0,0,30,30),"X"))
+		{
+			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
+		}
+		
+		GUI.Box(new Rect(0,0,320,480), "Try Our Other Products");
+		
+		int currX = 20;
+		int currY = 64;
+		foreach(PromoData pd in promoData)
+		{
+			if(GUI.Button(new Rect(currX,currY,140,140), pd.downloadedIcon))
+			{
+				Application.OpenURL(pd.linkURL);
+			}
+			GUI.Label(new Rect(currX + 160,currY,480-160, 140),pd.message);
+			currY += 160;
+			
+		}
+		
+	}
 	// Update is called once per frame
 	void Update () {
 	

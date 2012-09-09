@@ -36,8 +36,6 @@ public class GUIMainScreen : MonoBehaviour {
 	private Vector2 scrollPosition;
 	private Vector2 scrollPosition2;
 	
-	[System.NonSerialized]
-	public bool showGUI = false;
 	
 	void Start () {
 		GUIStyleState gss = new GUIStyleState();
@@ -46,7 +44,6 @@ public class GUIMainScreen : MonoBehaviour {
 		gss.textColor = Color.white;
 		textStyle.alignment = TextAnchor.MiddleCenter;
 		textStyle.normal = gss;
-		showGUI = false;
 	}
 	
 	// Update is called once per frame
@@ -54,15 +51,9 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	}
 	
-	public void ToggleGUI()
-	{
-		showGUI = !showGUI;
-		
-	}
-	
 	void OnGUI()
 	{
-		if(!showGUI)
+		if(AppController.getInstance().guiState != AppController.GUIState.FLUID_PROPERTIES)
 			return;
 			
 		GUI.skin = guiSkin;
@@ -189,7 +180,7 @@ public class GUIMainScreen : MonoBehaviour {
 	{
 		if(GUI.Button(new Rect(0,0,30,30),"X"))
 		{
-			SendMessageUpwards("showWaveGUI",false,SendMessageOptions.DontRequireReceiver);
+			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
 		}	
 		
 		if(AppController.showAds)

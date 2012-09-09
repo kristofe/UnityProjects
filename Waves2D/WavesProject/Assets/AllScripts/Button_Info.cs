@@ -21,7 +21,7 @@ public class Button_Info : Button {
 
 		base.MouseDown();
 	   print("SendMessage('showWaveGUI', true, SendMessageOptions.DontRequireReceiver)");
-       target.SendMessage("showWaveGUI", true, SendMessageOptions.DontRequireReceiver);
+       target.SendMessage("setGUIState", AppController.GUIState.FLUID_PROPERTIES, SendMessageOptions.DontRequireReceiver);
 		
 		//appControl.showWaveGUI(true);
     
