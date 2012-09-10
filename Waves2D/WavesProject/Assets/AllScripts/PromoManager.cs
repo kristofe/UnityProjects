@@ -186,7 +186,7 @@ public class PromoManager : MonoBehaviour {
 			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
 		}
 		
-		scrollPosition = GUI.BeginScrollView(new Rect(20,32,280,400),scrollPosition,new Rect(0,0,260,promoData.Count*160>400?promoData.Count*160:400),false, true);
+		scrollPosition = GUI.BeginScrollView(new Rect(20,32,280,400),scrollPosition,new Rect(0,0,260,promoData.Count*160>400?promoData.Count*160:400),false, false);
 
 		int currX = 0;
 		int currY = 0;
