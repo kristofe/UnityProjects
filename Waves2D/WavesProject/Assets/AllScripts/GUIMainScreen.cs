@@ -58,16 +58,21 @@ public class GUIMainScreen : MonoBehaviour {
 			return;
 			
 		GUI.skin = guiSkin;
-
+		
+		GUI.BeginGroup(AppController.guiRect);
+		
 		DrawBackground();
 		DrawMaps();	
 		DrawButtons();
+		
+		GUI.EndGroup();
+		
 
 	}
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), "*");
+		GUI.Box(new Rect(0,0,320,480), "Wave Options");
 		//GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		//GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
@@ -179,7 +184,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawButtons()
 	{
-		if(GUI.Button(new Rect(Screen.width - 30,0,30,30),"X"))
+		if(GUI.Button(new Rect(290,0,30,30),"X"))
 		{
 			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
 		}	

@@ -615,6 +615,7 @@ MonoBehaviour:
   iapGUI: {fileID: 1456323067}
   waveGUI: {fileID: 31}
   promoMgr: {fileID: 1456323068}
+  cameraMgr: {fileID: 29}
   guiState: 0
 --- !u!114 &1456323067
 MonoBehaviour:

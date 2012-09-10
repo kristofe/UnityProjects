@@ -14,9 +14,16 @@ public class AppController : MonoBehaviour {
 	public InAppPurchaseGUI iapGUI;
 	public GUIMainScreen waveGUI;
 	public PromoManager promoMgr;
+	public CameraFOVAdaptor cameraMgr;
 	
 	[System.NonSerialized]
 	public static bool showAds = true;
+	
+	[System.NonSerialized]
+	public static bool onIPad = false;
+	
+	[System.NonSerialized]
+	public static Rect guiRect = new Rect(0,0,320,480);
 	
 	private static AppController instance;
 	public GUIState guiState;
@@ -34,6 +41,14 @@ public class AppController : MonoBehaviour {
 			print("Creating ad banner on bottom");
 			AdBinding.createAdBanner( true );
 		}
+		
+		if(Screen.width > 320)
+		{
+			onIPad = true;
+			guiRect.x = Screen.width/2 -160;
+			guiRect.y = Screen.height/2 - 240;
+		}
+		cameraMgr.updateCamera();
 	}
 	
 	public static AppController getInstance()

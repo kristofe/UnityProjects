@@ -84,10 +84,12 @@ PlayerSettings:
     type: 1}
   iPadPortraitSplashScreen: {fileID: 2800000, guid: 0e8b70f8572854ef19c38dfafef8e57f,
     type: 1}
-  iPadHighResPortraitSplashScreen: {fileID: 0}
+  iPadHighResPortraitSplashScreen: {fileID: 2800000, guid: 0e8b70f8572854ef19c38dfafef8e57f,
+    type: 1}
   iPadLandscapeSplashScreen: {fileID: 2800000, guid: 52b86f99c235b44d58165a0e07ba5055,
     type: 1}
-  iPadHighResLandscapeSplashScreen: {fileID: 0}
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 52b86f99c235b44d58165a0e07ba5055,
+    type: 1}
   AndroidTargetDevice: 0
   AndroidTargetGraphics: 1
   AndroidSplashScreenScale: 0

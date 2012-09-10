@@ -44,6 +44,9 @@ public class PromoManager : MonoBehaviour {
 	private const string LAST_PROMO_SHOWN = "promo_shown";
 	private const string RUN_COUNTER = "run_counter";
 	
+	private GUIStyle largeFont;
+	private GUIStyle smallFont;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -55,6 +58,17 @@ public class PromoManager : MonoBehaviour {
 		runCounter++;
 		
 #endif
+		largeFont = new GUIStyle();
+		largeFont.fontSize = 18;
+		largeFont.fontStyle = FontStyle.Bold;
+		largeFont.normal.textColor = Color.white;
+		largeFont.alignment = TextAnchor.UpperCenter;
+		
+		smallFont = new GUIStyle();
+		smallFont.fontSize = 12;
+		smallFont.fontStyle = FontStyle.Bold;
+		smallFont.normal.textColor = Color.white;
+		smallFont.alignment = TextAnchor.MiddleLeft;
 		
 		promoData = new ArrayList();
 		StartCoroutine("processPromo");
@@ -148,7 +162,7 @@ public class PromoManager : MonoBehaviour {
 		//Should we show the promo?
 		//Show if there is a new version or we have run the app a certain multiple of time
 		Debug.Log ("runCounter: " + runCounter + " showEveryCount: " + showEveryCount + " runCounter % showEveryCount: " + runCounter % showEveryCount);
-		if(promoVersion > lastPromoVersion || runCounter % showEveryCount == 0)
+		if(runCounter > 2 && (promoVersion > lastPromoVersion || runCounter % showEveryCount == 0))
 			SendMessage("setGUIState", AppController.GUIState.PROMO, SendMessageOptions.DontRequireReceiver);
 		
 		storeRunCounterState();
@@ -160,13 +174,17 @@ public class PromoManager : MonoBehaviour {
 		if(AppController.getInstance().guiState != AppController.GUIState.PROMO)
 			return;
 		
-		if(GUI.Button(new Rect(Screen.width - 30,0,30,30),"X"))
+		GUI.BeginGroup(AppController.guiRect);
+		
+		GUI.Box(new Rect(0,0,320,480),"");
+		GUI.Box(new Rect(0,0,320,480),"");
+		GUI.Box(new Rect(0,0,320,480), "Try Our Other Apps",largeFont);
+		
+		if(GUI.Button(new Rect(290,0,30,30),"X"))
 		{
 			storePromoVersionState();
 			SendMessageUpwards("setGUIState",AppController.GUIState.HIDDEN,SendMessageOptions.DontRequireReceiver);
 		}
-		
-		GUI.Box(new Rect(0,0,320,480), "Try Our Other Products");
 		
 		scrollPosition = GUI.BeginScrollView(new Rect(20,32,280,400),scrollPosition,new Rect(0,0,260,promoData.Count*160),false, true);
 
@@ -178,12 +196,14 @@ public class PromoManager : MonoBehaviour {
 			{
 				Application.OpenURL(pd.linkURL);
 			}
-			GUI.Label(new Rect(currX + 160,currY,100, 140),pd.message);
+			GUI.Label(new Rect(currX + 145,currY,115, 140),pd.message,smallFont);
 			currY += 160;
 			
 		}
 		
 		GUI.EndScrollView();
+		
+		GUI.EndGroup();
 		
 	}
 	
