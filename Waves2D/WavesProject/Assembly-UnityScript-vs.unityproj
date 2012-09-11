@@ -45,7 +45,22 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AllScripts\Fps.js" />
-     <None Include="Assets\Promo\promo.txt" />
+     <None Include="Assets\Promo\promo_CHINESE.txt" />
+     <None Include="Assets\Promo\promo_FRENCH.txt" />
+     <None Include="Assets\Resources\StringTable_PORTUGUESE.txt" />
+     <None Include="Assets\Resources\StringTable_GERMAN.txt" />
+     <None Include="Assets\Resources\StringTable_ENGLISH.txt" />
+     <None Include="Assets\Resources\StringTable_SPANISH.txt" />
+     <None Include="Assets\Promo\promo_ENGLISH.txt" />
+     <None Include="Assets\Promo\promo_KOREAN.txt" />
+     <None Include="Assets\Promo\promo_GERMAN.txt" />
+     <None Include="Assets\Promo\promo_SPANISH.txt" />
+     <None Include="Assets\Resources\StringTable_JAPANESE.txt" />
+     <None Include="Assets\Resources\StringTable_CHINESE.txt" />
+     <None Include="Assets\Resources\StringTable_KOREAN.txt" />
+     <None Include="Assets\Promo\promo_JAPANESE.txt" />
+     <None Include="Assets\Promo\promo_PORTUGUESE.txt" />
+     <None Include="Assets\Resources\StringTable_FRENCH.txt" />
      <None Include="Assets\Materials and Fonts\2 Texture Blend.shader" />
  <Reference Include="Assets\Plugins\Prime31\P31RestKit">
  <HintPath>Assets\Plugins\Prime31\P31RestKit.dll</HintPath>

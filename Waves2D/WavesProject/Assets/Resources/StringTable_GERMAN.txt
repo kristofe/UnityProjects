@@ -1,0 +1,7 @@
+wave options	wave-Optionen
+reflection	Reflexion
+background	Hintergrund
+remove_ads	Werbung entfernen
+other_apps	andere Anwendungen
+choose_photo	Wählen Sie
+take_photo	nehmen Sie Foto
