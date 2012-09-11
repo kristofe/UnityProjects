@@ -1,0 +1,7 @@
+wave options	웨이브 옵션
+reflection	반사 이미지
+background	배경 이미지
+remove_ads	광고를 제거
+other_apps	기타 애플리케이션
+choose_photo	이미지를 선택
+take_photo	사진을보세요

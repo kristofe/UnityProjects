@@ -356,7 +356,7 @@ MonoBehaviour:
   texture09: {fileID: 2800000, guid: e7910c449444d486e9c879bfb065b95f, type: 1}
   noBanner: {fileID: 2800000, guid: 04e63d24266b441a7ba7e6c0677969b1, type: 1}
   moreApps: {fileID: 2800000, guid: a66a345cea1f148cf93de6bdf4139bd0, type: 1}
-  guiSkin: {fileID: 0}
+  guiSkin: {fileID: 11400000, guid: ccb4fcbf37cc44a11bd3af007c641164, type: 2}
   textStyle:
     m_Name: 
     m_Normal:
@@ -637,10 +637,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ac39ef0d6654dd9bebb43db621e303, type: 1}
   m_Name: 
-  promoFileURL: http://www.blackicegamesnyc.com/promos/promo.txt
+  promoFileBaseURL: http://www.blackicegamesnyc.com/promos/promo
   appID: WAVES
   lastVersionDisplayed: -1
   showEveryCount: 5
+  guiSkin: {fileID: 0}
 --- !u!1001 &1545613530
 Prefab:
   m_ObjectHideFlags: 0

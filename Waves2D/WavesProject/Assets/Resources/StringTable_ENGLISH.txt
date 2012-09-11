@@ -1,0 +1,7 @@
+wave options	Wave Options
+reflection	Reflection
+background	Background
+remove_ads	Remove Ads
+other_apps	Other Apps
+choose_photo	Choose Image
+take_photo	Take Photo
