@@ -1,0 +1,7 @@
+wave options	Opções de onda
+reflection	reflexão
+background	fundo
+remove_ads	remova os anúncios
+other_apps	Aplicativos outros
+choose_photo	Escolha Foto
+take_photo	tirar foto

@@ -1,0 +1,7 @@
+wave options	波选项
+reflection	反射
+background	背景
+remove_ads	删除广告
+other_apps	其他应用程序
+choose_photo	选择照片
+take_photo	拍照

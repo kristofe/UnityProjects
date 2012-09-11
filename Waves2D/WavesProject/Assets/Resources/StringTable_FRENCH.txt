@@ -1,0 +1,7 @@
+wave options	options de vagues
+reflection	réflexion
+background	fond
+remove_ads	Supprimer des annonces
+other_apps	autres applications
+choose_photo	choisir une image
+take_photo	prendre une photo

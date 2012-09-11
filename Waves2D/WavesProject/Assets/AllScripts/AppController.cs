@@ -33,6 +33,8 @@ public class AppController : MonoBehaviour {
 	public void Start () {
 		
 		AppController.instance = this;
+		StringTable.loadFile();
+		
 		int disableAds = PlayerPrefs.GetInt(DISABLE_ADS);
 		print ("PlayerPrefs.GetInt(DISABLE_ADS) = " + disableAds);
 		AppController.showAds = disableAds == 0;

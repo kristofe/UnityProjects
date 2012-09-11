@@ -45,6 +45,7 @@ public class GUIMainScreen : MonoBehaviour {
 		gss.textColor = Color.white;
 		textStyle.alignment = TextAnchor.MiddleCenter;
 		textStyle.normal = gss;
+		textStyle.wordWrap = true;
 	}
 	
 	// Update is called once per frame
@@ -72,7 +73,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), "Wave Options");
+		GUI.Box(new Rect(0,0,320,480), StringTable.getString("wave options"));
 		//GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		//GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
@@ -192,7 +193,7 @@ public class GUIMainScreen : MonoBehaviour {
 		if(AppController.showAds)
 		{
 			
-			if(GUI.Button(new Rect(10,345,140,64),noBanner))
+			if(GUI.Button(new Rect(10,345,140,64),StringTable.getString("remove_ads")))
 			{
 				StoreKitBinding.purchaseProduct( "com.blackicegamesnyc.remove_ads", 1 );
 			}
@@ -200,7 +201,7 @@ public class GUIMainScreen : MonoBehaviour {
 		
 		if(AppController.getInstance().getPromoMgr().hasData())
 		{
-			if(GUI.Button(new Rect(20+150,345,140,64),moreApps))
+			if(GUI.Button(new Rect(20+150,345,140,64),StringTable.getString("other_apps")))
 			{
 				SendMessageUpwards("setGUIState",AppController.GUIState.PROMO,SendMessageOptions.DontRequireReceiver);
 			}	
