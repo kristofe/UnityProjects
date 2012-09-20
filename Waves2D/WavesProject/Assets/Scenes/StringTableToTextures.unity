@@ -229,9 +229,13 @@ MonoBehaviour:
   - japanese
   - korean
   ids:
-  - wave options
+  - wave_options
   - reflection
   - background
+  - remove_ads
+  - other_apps
+  - choose_photo
+  - take_photo
   rect:
     serializedVersion: 2
     x: 0

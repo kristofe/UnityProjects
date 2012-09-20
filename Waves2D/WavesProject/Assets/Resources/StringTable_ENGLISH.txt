@@ -1,4 +1,4 @@
-wave options	Wave Options
+wave_options	Wave Options
 reflection	Reflection
 background	Background
 remove_ads	Remove Ads

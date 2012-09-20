@@ -15,8 +15,11 @@ public class LocalizedStringToTexture : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		StringTable.loadFile(languages[0]);
+		language = languages[0];
 		id = ids[0];
+		
+		StringTable.loadFile(language);
+		
 		currentLanguageIdx = 0;
 		currentIdIdx = 0;
 	}
@@ -39,7 +42,7 @@ public class LocalizedStringToTexture : MonoBehaviour {
 	
 	private bool moveToNextID()
 	{
-		if(++currentIdIdx >= ids.Length)
+		if(++currentIdIdx >= ids.Length - 1)
 		{
 			currentIdIdx = 0;
 			currentLanguageIdx++;
@@ -49,6 +52,7 @@ public class LocalizedStringToTexture : MonoBehaviour {
 				StringTable.loadFile(languages[currentLanguageIdx]);
 			}
 			else{
+				currentLanguageIdx = 0;
 				return false;
 			}
 		}
@@ -81,7 +85,9 @@ public class LocalizedStringToTexture : MonoBehaviour {
 		
 		byte[] bytes = tex.EncodeToPNG();
 		
-		System.IO.File.WriteAllBytes(Application.dataPath + "/Resources/" + id + "_" + language + ".png", bytes);
+		Debug.Log("Creating image_label_" + id + "_" + language + ".png");
+		
+		System.IO.File.WriteAllBytes(Application.dataPath + "/Resources/image_label_" + id + "_" + language + ".png", bytes);
 
 	}
 }

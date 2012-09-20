@@ -73,7 +73,7 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), StringTable.getString("wave options"));
+		GUI.Box(new Rect(0,0,320,480), StringTable.getString("wave_options"));
 		//GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		//GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
