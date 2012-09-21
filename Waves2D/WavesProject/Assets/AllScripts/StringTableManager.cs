@@ -3,6 +3,7 @@ using System.Collections;
 
 public class StringTable {
 	private static Hashtable _hashtable;
+	private static string _language;
 	
 	/* Going to support the following languages
 	 * English
@@ -19,12 +20,13 @@ public class StringTable {
 	
 	public static void loadFile(string language = "") {
 		_hashtable = new Hashtable();
-		
+		_language = language;
 		Debug.Log("StringTableManager: systemLanguage = " + Application.systemLanguage.ToString());
 		
 		string fileName = "StringTable";
 		if(language.Length == 0)
 		{
+			_language = Application.systemLanguage.ToString();
 			switch(Application.systemLanguage)
 			{
 			case SystemLanguage.Chinese:
@@ -103,5 +105,6 @@ public class StringTable {
 			str = (string)StringTable._hashtable[key];
 		return str;
 	}
+	
 	
 }

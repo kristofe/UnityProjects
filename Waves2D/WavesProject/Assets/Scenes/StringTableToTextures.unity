@@ -87,6 +87,7 @@ GameObject:
   - 124: {fileID: 2131185190}
   - 81: {fileID: 2131185188}
   - 114: {fileID: 2131185191}
+  - 114: {fileID: 2131185192}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -220,7 +221,7 @@ MonoBehaviour:
     m_ClipOffset: {x: 0, y: 0}
     m_FixedWidth: 0
     m_FixedHeight: 0
-    m_FontSize: 0
+    m_FontSize: 12
     m_FontStyle: 1
     m_StretchWidth: 1
     m_StretchHeight: 0
@@ -228,17 +229,55 @@ MonoBehaviour:
   - chinese
   - japanese
   - korean
+  - english
+  - german
+  - spanish
+  - portuguese
+  - french
   ids:
-  - wave_options
-  - reflection
-  - background
-  - remove_ads
-  - other_apps
-  - choose_photo
-  - take_photo
+  - id: wave_options
+    alignment: 1
+  - id: reflection
+    alignment: 0
+  - id: background
+    alignment: 0
+  - id: remove_ads
+    alignment: 4
+  - id: other_apps
+    alignment: 4
+  - id: choose_photo
+    alignment: 4
+  - id: take_photo
+    alignment: 4
   rect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 128
-    height: 128
+    height: 64
+--- !u!114 &2131185192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2131185185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 146659e21d66143efac5c64393572a80, type: 1}
+  m_Name: 
+  _cachedStrings:
+  - id: wave_options
+    cachedImage: {fileID: 0}
+  - id: reflection
+    cachedImage: {fileID: 0}
+  - id: background
+    cachedImage: {fileID: 0}
+  - id: remove_ads
+    cachedImage: {fileID: 0}
+  - id: other_apps
+    cachedImage: {fileID: 0}
+  - id: choose_photo
+    cachedImage: {fileID: 0}
+  - id: take_photo
+    cachedImage: {fileID: 0}
+  _defaultImage: {fileID: 0}

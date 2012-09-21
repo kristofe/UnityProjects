@@ -73,7 +73,9 @@ public class GUIMainScreen : MonoBehaviour {
 	
 	void DrawBackground()
 	{
-		GUI.Box(new Rect(0,0,320,480), StringTable.getString("wave_options"));
+		//GUI.Box(new Rect(0,0,320,480), StringTable.getString("wave_options"));
+		GUI.Box(new Rect(0,0,320,480), LocalizedCachedStringAsTexture.getInstance().getCachedString("wave_options"));
+		
 		//GUI.Label(new Rect(0,25,320,25), "Reflection", textStyle);
 		//GUI.Label(new Rect(0,260,320,25), "Background",textStyle);
 	}
@@ -193,7 +195,8 @@ public class GUIMainScreen : MonoBehaviour {
 		if(AppController.showAds)
 		{
 			
-			if(GUI.Button(new Rect(10,345,140,64),StringTable.getString("remove_ads")))
+			//if(GUI.Button(new Rect(10,345,140,64),StringTable.getString("remove_ads")))
+			if(GUI.Button(new Rect(10,345,128,64),LocalizedCachedStringAsTexture.getInstance().getCachedString("remove_ads")))
 			{
 				StoreKitBinding.purchaseProduct( "com.blackicegamesnyc.remove_ads", 1 );
 			}
@@ -201,7 +204,8 @@ public class GUIMainScreen : MonoBehaviour {
 		
 		if(AppController.getInstance().getPromoMgr().hasData())
 		{
-			if(GUI.Button(new Rect(20+150,345,140,64),StringTable.getString("other_apps")))
+			//if(GUI.Button(new Rect(20+150,345,140,64),StringTable.getString("other_apps")))
+			if(GUI.Button(new Rect(20+150,345,128,64),LocalizedCachedStringAsTexture.getInstance().getCachedString("other_apps")))	
 			{
 				SendMessageUpwards("setGUIState",AppController.GUIState.PROMO,SendMessageOptions.DontRequireReceiver);
 			}	
