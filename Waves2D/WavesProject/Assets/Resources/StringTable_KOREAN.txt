@@ -1,4 +1,4 @@
-wave options	웨이브 옵션
+wave_options	웨이브 옵션
 reflection	반사 이미지
 background	배경 이미지
 remove_ads	광고를 제거

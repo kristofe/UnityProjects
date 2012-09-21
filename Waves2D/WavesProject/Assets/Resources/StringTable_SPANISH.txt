@@ -1,4 +1,4 @@
-wave options	Opciones de Wave
+wave_options	Opciones de Wave
 reflection	reflexión
 background	fondo
 remove_ads	Eliminar anuncios
