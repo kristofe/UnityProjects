@@ -1,4 +1,4 @@
-wave options	ウェーブ·オプション
+wave_options	ウェーブ·オプション
 reflection	反射像
 background	背景画像
 remove_ads	広告を削除

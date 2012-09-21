@@ -1,4 +1,4 @@
-wave options	options de vagues
+wave_options	options de vagues
 reflection	réflexion
 background	fond
 remove_ads	Supprimer des annonces

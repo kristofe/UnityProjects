@@ -582,6 +582,7 @@ GameObject:
   - 114: {fileID: 1456323067}
   - 114: {fileID: 1456323066}
   - 114: {fileID: 1456323068}
+  - 114: {fileID: 1456323069}
   m_Layer: 0
   m_Name: AppControl
   m_TagString: Untagged
@@ -642,6 +643,32 @@ MonoBehaviour:
   lastVersionDisplayed: -1
   showEveryCount: 5
   guiSkin: {fileID: 0}
+--- !u!114 &1456323069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1456323064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 146659e21d66143efac5c64393572a80, type: 1}
+  m_Name: 
+  _cachedStrings:
+  - id: wave_options
+    cachedImage: {fileID: 0}
+  - id: background
+    cachedImage: {fileID: 0}
+  - id: choose_photo
+    cachedImage: {fileID: 0}
+  - id: other_apps
+    cachedImage: {fileID: 0}
+  - id: reflection
+    cachedImage: {fileID: 0}
+  - id: remove_ads
+    cachedImage: {fileID: 0}
+  - id: take_photo
+    cachedImage: {fileID: 0}
+  _defaultImage: {fileID: 0}
 --- !u!1001 &1545613530
 Prefab:
   m_ObjectHideFlags: 0

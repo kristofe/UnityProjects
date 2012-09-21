@@ -3,6 +3,7 @@ using System.Collections;
 
 public class StringTable {
 	private static Hashtable _hashtable;
+	private static string _language;
 	
 	/* Going to support the following languages
 	 * English
@@ -17,50 +18,57 @@ public class StringTable {
 	 * Turkish?
 	 */
 	
-	public static void loadFile() {
+	public static void loadFile(string language = "") {
 		_hashtable = new Hashtable();
-		
+		_language = language;
 		Debug.Log("StringTableManager: systemLanguage = " + Application.systemLanguage.ToString());
 		
 		string fileName = "StringTable";
-		switch(Application.systemLanguage)
+		if(language.Length == 0)
 		{
-		case SystemLanguage.Chinese:
-			fileName += "_CHINESE";
-			break;
+			_language = Application.systemLanguage.ToString();
+			switch(Application.systemLanguage)
+			{
+			case SystemLanguage.Chinese:
+				fileName += "_CHINESE";
+				break;
+				
+			case SystemLanguage.Korean:
+				fileName += "_KOREAN";
+				break;
+				
+			case SystemLanguage.Japanese:
+				fileName += "_JAPANESE";
+				break;
+				
+			case SystemLanguage.German:
+				fileName += "_GERMAN";
+				break;
+				
+			case SystemLanguage.French:
+				fileName += "_FRENCH";
+				break;
 			
-		case SystemLanguage.Korean:
-			fileName += "_KOREAN";
-			break;
-			
-		case SystemLanguage.Japanese:
-			fileName += "_JAPANESE";
-			break;
-			
-		case SystemLanguage.German:
-			fileName += "_GERMAN";
-			break;
-			
-		case SystemLanguage.French:
-			fileName += "_FRENCH";
-			break;
-		
-		case SystemLanguage.Spanish:
-			fileName += "_SPANISH";
-			break;
-			
-		case SystemLanguage.Portuguese:
-			fileName += "_PORTUGUESE";
-			break;
-			
-		case SystemLanguage.English:	
-			fileName += "_ENGLISH";
-			break;
-		default:
-			fileName += "_ENGLISH";
-			break;
+			case SystemLanguage.Spanish:
+				fileName += "_SPANISH";
+				break;
+				
+			case SystemLanguage.Portuguese:
+				fileName += "_PORTUGUESE";
+				break;
+				
+			case SystemLanguage.English:	
+				fileName += "_ENGLISH";
+				break;
+			default:
+				fileName += "_ENGLISH";
+				break;
+			}
 		}
-		
+		else
+		{
+			fileName += "_" + language.ToUpper();	
+		}
 		//fileName = "StringTable_GERMAN";
 		Debug.Log("Loading: " + fileName);
 		TextAsset taStringTable = Resources.Load(fileName) as TextAsset;
@@ -97,5 +105,6 @@ public class StringTable {
 			str = (string)StringTable._hashtable[key];
 		return str;
 	}
+	
 	
 }

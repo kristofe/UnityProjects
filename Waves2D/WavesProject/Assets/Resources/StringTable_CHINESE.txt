@@ -1,4 +1,4 @@
-wave options	波选项
+wave_options	波选项
 reflection	反射
 background	背景
 remove_ads	删除广告
