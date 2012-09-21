@@ -6,24 +6,20 @@ using System;
 public class PromoData
 {
 	public string appName;
-	public string language;
 	public string iconURL;
 	public string linkURL;
-	public string message;
 	public Texture2D downloadedIcon;
 	
 	public PromoData(string[] fields)
 	{
 		appName = fields[0];
-		language = fields[1];
-		iconURL = fields[2];
-		linkURL = fields[3];
-		message = fields[4];
+		iconURL = fields[1];
+		linkURL = fields[2];
 	}
 	
 	public void debugPrint()
 	{
-		Debug.Log ("PromoData: appName: " + appName + " language: " + language + " iconURL: " + iconURL + " linkURL: " + linkURL + " message: " + message + " textureDim: "
+		Debug.Log ("PromoData: appName: " + appName + " iconURL: " + iconURL + " linkURL: " + linkURL +  " textureDim: "
 			+ downloadedIcon.width + ", " + downloadedIcon.height);
 	}
 };
@@ -183,7 +179,7 @@ public class PromoManager : MonoBehaviour {
 			
 			string[] fields = l.Split('|');
 			
-			if(fields.Length < 5)
+			if(fields.Length < 3)
 				continue;
 			
 			PromoData pd = new PromoData(fields);
@@ -245,11 +241,11 @@ public class PromoManager : MonoBehaviour {
 		int currY = 0;
 		foreach(PromoData pd in promoData)
 		{
-			if(GUI.Button(new Rect(currX,currY,140,140), pd.downloadedIcon))
+			if(GUI.Button(new Rect(currX,currY,256,140), pd.downloadedIcon))
 			{
 				Application.OpenURL(pd.linkURL);
 			}
-			GUI.Label(new Rect(currX + 145,currY,115, 140),pd.message,smallFont);
+			//GUI.Label(new Rect(currX + 145,currY,115, 140),pd.message,smallFont);
 			currY += 160;
 			
 		}
