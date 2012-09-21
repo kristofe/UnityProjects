@@ -227,7 +227,9 @@ public class PromoManager : MonoBehaviour {
 		
 		GUI.Box(new Rect(0,0,320,480),"");
 		GUI.Box(new Rect(0,0,320,480),"");
-		GUI.Box(new Rect(0,0,320,480), StringTable.getString("other_apps"),largeFont);
+		//GUI.Box(new Rect(0,0,320,480), StringTable.getString("other_apps"),largeFont);
+		GUI.Box(new Rect(0,0,320,480), LocalizedCachedStringAsTexture.getInstance().getCachedString("other_apps"),largeFont);
+		
 		
 		if(GUI.Button(new Rect(290,0,30,30),"X"))
 		{
